@@ -1,0 +1,52 @@
+from bs4 import BeautifulSoup
+import requests
+import pandas as pd
+from nltk.corpus import stopwords
+from nltk.tokenize import word_tokenize
+
+#get html from a website
+website = 'https://jamesclear.com/book-summaries'
+result = requests.get(website)
+content = result.text
+
+soup = BeautifulSoup(content, 'lxml')
+
+
+#scrape the contents with hotel name
+title= []
+for titlename in box3.find_all('h3', class_ = 'sale-book__title'):
+    title.append(titlename .get_text())
+
+print(title)
+
+result = []
+for x in summary:
+     result.append(x.split(','))
+print(result[3])
+
+# Using list slicing
+# Separating odd and even index elements
+res2 = result[1::2] 
+res2 = res2[1:55]
+res2
+
+nltk.download('stopwords')
+from nltk.corpus import stopwords
+
+stop_words = stopwords.words('english')
+print(stop_words)
+
+df['combined2'] = df['combined'].apply(lambda x: ' '.join([word for word in x.split() if word not in (stop_words)]))
+df['combined2']
+
+
+#count frequency 
+df["frequency"] = df['combined'].str.lower().str.replace('[^\w\s]','')
+ 
+ 
+new_df = df.frequency.str.split(expand=True).stack().value_counts().reset_index()
+new_df.columns = ['Word', 'Frequency'] 
+
+#stopwords removed and display frequency of words in dataframe
+new_df['Word'] = new_df['Word'].apply(lambda x: ' '.join([item for item in x.split() if item not in stop_words]))
+
